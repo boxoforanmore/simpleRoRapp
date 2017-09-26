@@ -21,14 +21,16 @@
     <%= form.text_field :office, id: :professor_office %>
   </div>
 
+  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
   <div class="field">
     <%= form.label :phone %>
-    <%= form.text_field :phone, id: :professor_phone %>
+    <%= form.telephone_field :phone, id: :professor_phone %>
   </div>
 
+  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
   <div class="field">
     <%= form.label :email %>
-    <%= form.text_field :email, id: :professor_email %>
+    <%= form.email_field :email, id: :professor_email %>
   </div>
 
   <div class="field">

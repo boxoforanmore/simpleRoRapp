@@ -12,12 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label "Course Name" %>
     <%= form.text_field :name, id: :course_name %>
   </div>
 
   <div class="field">
-    <%= form.label :number %>
+    <%= form.label "Course Number" %>
     <%= form.number_field :number, id: :course_number %>
   </div>
 
@@ -27,18 +27,20 @@
   </div>
 
   <div class="field">
-    <%= form.label :credit %>
+    <%= form.label "Credits" %>
     <%= form.number_field :credit, id: :course_credit %>
   </div>
 
+  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
   <div class="field">
     <%= form.label :semester %>
-    <%= form.text_field :semester, id: :course_semester %>
+    <%= form.select :semester, ['Fall', 'Spring', 'Summer'] %>
   </div>
 
+  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
   <div class="field">
     <%= form.label :year %>
-    <%= form.text_field :year, id: :course_year %>
+    <%= form.select :year, (Time.zone.now.year)...(Time.zone.now.year+3) %>
   </div>
 
   <div class="actions">

@@ -25,5 +25,20 @@
   <%= @professor.department %>
 </p>
 
+<p>
+  <% # Help from: ActiveRecord PowerPoint %>
+  <strong>Courses:</strong>
+  <% @professor.sections.each do |section| %>
+  <li>  <%= section.course.semester %>
+        <%= section.course.year %> 
+        <%= section.course.name %>
+        <%= section.course.number %>
+        <%= section.number %>
+        <%= section.day %>
+        <%= section.begintime %>
+        <%= section.endtime %>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_professor_path(@professor) %> |
 <%= link_to 'Back', professors_path %>

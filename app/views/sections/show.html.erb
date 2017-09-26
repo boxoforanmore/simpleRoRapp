@@ -1,13 +1,31 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Crn:</strong>
+  <strong>CRN:</strong>
   <%= @section.crn %>
 </p>
 
 <p>
-  <strong>Number:</strong>
+  <strong>Department w/ Course and Section Numbers:</strong>
+  <%= @section.course.department %>
+  <%= @section.course.number %>
   <%= @section.number %>
+</p>
+
+<p>
+  <strong>Course Name:</strong>
+  <%= @section.course.name %>
+</p>
+
+<p>
+  <strong>Professor:</strong>
+  <%= @section.professor.name %>
+</p>
+
+<p>
+  <strong>Semester and Year:</strong>
+  <%= @section.course.semester %>
+  <%= @section.course.year %>
 </p>
 
 <p>
@@ -16,28 +34,18 @@
 </p>
 
 <p>
-  <strong>Day:</strong>
+  <strong>Days:</strong>
   <%= @section.day %>
 </p>
 
 <p>
-  <strong>Begintime:</strong>
+  <strong>Begin Time:</strong>
   <%= @section.begintime %>
 </p>
 
 <p>
-  <strong>Endtime:</strong>
+  <strong>End Time:</strong>
   <%= @section.endtime %>
-</p>
-
-<p>
-  <strong>Professor:</strong>
-  <%= @section.professor %>
-</p>
-
-<p>
-  <strong>Course:</strong>
-  <%= @section.course %>
 </p>
 
 <%= link_to 'Edit', edit_section_path(@section) %> |

@@ -5,14 +5,15 @@
 <table>
   <thead>
     <tr>
-      <th>Crn</th>
-      <th>Number</th>
+      <th>CRN</th>
+      <th>Department</th>
+      <th>Course Number</th>
+      <th>Section Number</th>
       <th>Room</th>
-      <th>Day</th>
-      <th>Begintime</th>
-      <th>Endtime</th>
+      <th>Days</th>
+      <th>Begin Time</th>
+      <th>End Time</th>
       <th>Professor</th>
-      <th>Course</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,13 +22,14 @@
     <% @sections.each do |section| %>
       <tr>
         <td><%= section.crn %></td>
+        <td><%= section.course.department %></td>
+        <td><%= section.course.number %></td>
         <td><%= section.number %></td>
         <td><%= section.room %></td>
         <td><%= section.day %></td>
         <td><%= section.begintime %></td>
         <td><%= section.endtime %></td>
-        <td><%= section.professor %></td>
-        <td><%= section.course %></td>
+        <td><%= section.professor.name %></td>
         <td><%= link_to 'Show', section %></td>
         <td><%= link_to 'Edit', edit_section_path(section) %></td>
         <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>

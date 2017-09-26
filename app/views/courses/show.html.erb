@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Course Name:</strong>
   <%= @course.name %>
 </p>
 
 <p>
-  <strong>Number:</strong>
+  <strong>Course Number:</strong>
   <%= @course.number %>
 </p>
 
@@ -16,7 +16,7 @@
 </p>
 
 <p>
-  <strong>Credit:</strong>
+  <strong>Credits:</strong>
   <%= @course.credit %>
 </p>
 
@@ -28,6 +28,18 @@
 <p>
   <strong>Year:</strong>
   <%= @course.year %>
+</p>
+
+<p>
+  <% # Help from ActiveRecord PowerPoint%>
+  <strong>Sections:</strong>
+  <% @course.sections.each do |section| %>
+    <li> <%= section.number %>
+         <%= section.professor.name %>
+         <%= section.day %>
+         <%= section.begintime %>
+         <%= section.endtime %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_course_path(@course) %> |
