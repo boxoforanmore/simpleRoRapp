@@ -2,6 +2,14 @@
 
 <h1>Professors</h1>
 
+<%= form_tag(search_professors_url, method: "get") do %>
+  <%= label_tag(:q, "Search by Name:") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<br>
+
 <table>
   <thead>
     <tr>
@@ -33,3 +41,14 @@
 <br>
 
 <%= link_to 'New Professor', new_professor_path %>
+
+<br>
+<br>
+
+<%= link_to 'Sections', sections_url %>
+<%= link_to 'Courses', courses_url %>
+
+<br>
+<br>
+
+<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
