@@ -1,0 +1,72 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @student.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @student.email %>
+</p>
+
+<p>
+  <strong>Major:</strong>
+  <%= @student.major %>
+</p>
+
+<p>
+  <strong>Minor:</strong>
+  <%= @student.minor %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @student.year %>
+</p>
+
+<p>
+  <strong>Graduation:</strong>
+  <%= @student.graduation %>
+</p>
+
+
+<div class="show-list">
+  <strong>Enrolled Courses:</strong>
+  <table>
+    <thead>
+      <tr>
+        <th>CRN</th>
+        <th>Course Name</th>
+        <th>Section</th>
+        <th>Professor</th>
+        <th>Days</th>
+        <th>Begin Time</th>
+        <th>End Time</th>
+        <th>Credits</th>
+        <th>Semester</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @student.enrollments.each do |enrollment| %>
+        <tr>
+          <td><%= enrollment.section.crn %></td>
+          <td><%= enrollment.section.course.name %></td>
+          <td><%= enrollment.section.number %></td>
+          <td><%= enrollment.section.professor.name %>, <%= enrollment.section.professor.email %></td>
+          <td><%= enrollment.section.day %></td>
+          <td><%= enrollment.section.begintime %></td>
+          <td><%= enrollment.section.endtime %></td>
+          <td><%= enrollment.section.course.credit %></td>
+	  <td><%= enrollment.section.course.semester %> <%= enrollment.section.course.year %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>

@@ -1,9 +1,13 @@
 class Section < ApplicationRecord
   belongs_to :professor
   belongs_to :course
-
+  has_many :enrollments
+  has_many :students, through: :enrollments
+  
   validates :professor, presence: true
   validates :course, presence: true
+
+  validates_associated :students
 
   validates :crn, length: {is: 5}, presence: true, uniqueness: true, inclusion: {in: 10000..99999}
   validates :number, length: {maximum: 2}, numericality: {only_integer: true}, presence: true

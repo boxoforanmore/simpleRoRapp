@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
   def search
-    @courses = Course.where("name like ?", "%#{params[:q]}%")
+    @courses = Course.where("name || department like ?", "%#{params[:q]}%")
     render :index
   end
 

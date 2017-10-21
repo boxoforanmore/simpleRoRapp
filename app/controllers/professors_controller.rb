@@ -2,7 +2,7 @@ class ProfessorsController < ApplicationController
   before_action :set_professor, only: [:show, :edit, :update, :destroy]
 
   def search
-    @professors = Professor.where("name like ?", "%#{params[:q]}%")
+    @professors = Professor.where("name || department like ?", "%#{params[:q]}%")
     render :index
   end
 

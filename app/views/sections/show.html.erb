@@ -48,6 +48,13 @@
   <%= @section.endtime %>
 </p>
 
+<div class="show-list">
+  <strong>Enrolled Students:</strong>
+  <% @section.enrollments.each do |enrollment| %>
+    <li><%= enrollment.student.name %></li>
+  <% end %>
+</div>
+
 <%= link_to 'Edit', edit_section_path(@section) %> |
 <%= link_to 'Back', sections_path %>
 

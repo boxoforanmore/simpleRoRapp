@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <strong>Course Name:</strong>
+  <%= @enrollment.section.course.name %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @enrollment.section.crn %>
+</p>
+
+<p>
+  <strong>Professor:</strong>
+  <%= @enrollment.section.professor.name %>
+</p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @enrollment.student.name %>
+</p>
+
+<p>
+  <strong>Credits:</strong>
+  <%= @enrollment.section.course.credit %>
+</p>
+
+<%= link_to 'Edit', edit_enrollment_path(@enrollment) %> |
+<%= link_to 'Back', enrollments_path %>

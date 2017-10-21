@@ -25,20 +25,41 @@
   <%= @professor.department %>
 </p>
 
-<p>
-  <% # Help from: ActiveRecord PowerPoint %>
-  <strong>Courses:</strong>
-  <% @professor.sections.each do |section| %>
-  <li>  <%= section.course.semester %>
-        <%= section.course.year %> 
-        <%= section.course.name %>
-        <%= section.course.number %>
-        <%= section.number %>
-        <%= section.day %>
-        <%= section.begintime %>
-        <%= section.endtime %>
-  <% end %>
-</p>
+<div class="show-list">
+  <strong>Courses and Enrolled Students:</strong>
+  <table>
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>CRN</th>
+        <th>Section</th>
+        <th>Days</th>
+        <th>Begin Time</th>
+        <th>End Time</th>
+        <th>Semester</th>
+        <th>Students and Emails</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <% @professor.sections.each do |section| %>
+        <tr>
+          <td><%= section.course.name %></td>
+          <td><%= section.crn %></td>
+          <td><%= section.number %></td>
+          <td><%= section.day %></td>
+          <td><%= section.begintime %></td>
+          <td><%= section.endtime %></td>
+          <td><%= section.course.semester %> <%= section.course.year %></td>
+          <td><%  section.enrollments.each do |enrollment| %>
+            <li><%= enrollment.student.name %>, <%= enrollment.student.email %></li>
+               <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= link_to 'Edit', edit_professor_path(@professor) %> |
 <%= link_to 'Back', professors_path %>

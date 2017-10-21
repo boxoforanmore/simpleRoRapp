@@ -3,7 +3,7 @@
 <h1>Professors</h1>
 
 <%= form_tag(search_professors_url, method: "get") do %>
-  <%= label_tag(:q, "Search by Name:") %>
+  <%= label_tag(:q, "Search by Professor Name or Department:") %>
   <%= text_field_tag(:q) %>
   <%= submit_tag("Search") %>
 <% end %>
@@ -41,12 +41,6 @@
 <br>
 
 <%= link_to 'New Professor', new_professor_path %>
-
-<br>
-<br>
-
-<%= link_to 'Sections', sections_url %>
-<%= link_to 'Courses', courses_url %>
 
 <br>
 <br>

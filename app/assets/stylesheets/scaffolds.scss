@@ -20,7 +20,7 @@ pre {
 }
 
 a {
-  color: #000;
+  color: blue;
 
   &:visited {
     color: #666;
@@ -34,6 +34,7 @@ a {
 
 th {
   padding-bottom: 5px;
+  text-align: left;
 }
 
 td {
@@ -81,4 +82,58 @@ div {
 
 label {
   display: block;
+}
+
+.header {
+  background: #39FF90;
+}
+
+.college {
+  font-family: Futura;
+  font-size: 28px;
+  text-align: center;
+
+  .motto {
+    font-family: "Century Gothic";
+    font-style: italic;
+    font-size: 12px;
+  }
+}
+
+.navbar {
+  font-size: 14px;
+  text-align: center;
+
+  table{
+    background-color: solid #39FF90;
+    margin: auto;
+    border: solid #24BF68;
+  }
+  
+  th {
+    background-color: #24BF68;
+    padding: 10px;
+  }
+}
+
+.show-list {
+  text-align: left;
+  
+  td {
+    vertical-align: top;
+  }
+}
+
+table {
+  border: 1px solid black;
+}
+
+tr:nth-child(even) {
+  background-color: #F2F2F2
+}
+  
+th {
+  background-color: #33BBFF;
+  color: white;
+  padding: 3px;
 }
