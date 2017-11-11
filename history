@@ -1,0 +1,500 @@
+  419  man -v
+  420  man cmatrix
+  421  sl -alt
+  422  sl
+  423  cd ../Discrete/
+  424  ls
+  425  open Epp\ S.S.\ Discrete\ mathematics\ with\ applications.pdf 
+  426  sl
+  427  sl -a
+  428  cd ..
+  429  cd ./Graphics/
+  430  ./snowjob.sh 
+  431  rl
+  432  sl
+  433  ./snowjob.sh 
+  434  sl
+  435  sl -t
+  436  sl -l
+  437  sl
+  438  sl -a
+  439  sl'
+  440  sl
+  441  ./snowjob.sh 
+  442  vi snowjob.sh 
+  443  cd ..
+  444  cd WebApps/
+  445  ls
+  446  mkdir appPlans/
+  447  cd appPlans/
+  448  vi MusicDB.txt
+  449  docker -v
+  450  vi MusicDB.txt
+  451  vi MusicDB.txt
+  452  vi MusicDB.txt
+  453  cd ../../Graphics/
+  454  clear
+  455  clear
+  456  clear
+  457  ls -al
+  458  ./snowjob.sh 
+  459  sl
+  460  sl -a
+  461  sl-l
+  462  sl -l
+  463  sl -t
+  464  sl
+  465  sl -al
+  466  sl
+  467  ./snowjob.sh 
+  468  ./snowjob.sh 
+  469  ./snowjob.sh 
+  470  sl
+  471  cd ..
+  472  ls
+  473  cd ../Fall2017/
+  474  ls -al
+  475  clear
+  476  ls -al
+  477  cd ../workspace/
+  478  ls
+  479  cd Assignment1/
+  480  ls
+  481  cd coursesapp/
+  482  ls
+  483  git log
+  484  git add app/ bin/ test/ db/ config/ 
+  485  git commit -m "Assignment One; Added dropdowns, inter-table connections; Changed views and models"
+  486  git diff
+  487  git log
+  488  ls log/
+  489  clear 
+  490  cd ../../../Fall2017/Graphics/
+  491  ls
+  492  cd OneTri/
+  493  ls
+  494  cd Ex_1.
+  495  vi Ex_1.
+  496  vi Ex_1.java 
+  497  clear
+  498  cd Desktop/
+  499  cd workspace/
+  500  vi coolStuff.txt
+  501  cd Desktop/workspace/Assignment1/coursesapp/
+  502  vi config/routes.rb 
+  503  rails server
+  504  vi config/routes.rb 
+  505  rails server
+  506  clear 
+  507  history
+  508  clear 
+  509  vi app/models/professor.rb 
+  510  rails server
+  511  clear 
+  512  vi app/models/professor.rb 
+  513  rails server
+  514  vi app/models/section.rb 
+  515  vi app/views/sections/index.
+  516  vi app/views/sections/index.html.erb 
+  517  vi app/models/section.rb 
+  518  vi app/models/professor.rb 
+  519  rails server
+  520  vi app/models/professor.rb 
+  521  git diff
+  522  rails server
+  523  vi app/models/course.rb 
+  524  rails server
+  525  vi app/models/course.rb 
+  526  rails server
+  527  vi app/models/course.rb 
+  528  rails server
+  529  vi app/models/section.rb 
+  530  vi app/models/professor.rb 
+  531  rails server
+  532  vi app/models/course.rb 
+  533  rails server
+  534  vi app/models/course.rb 
+  535  vi config/routes.rb 
+  536  vi app/views/professors/index.html.erb 
+  537  vi app/views/sections/index.html.erb 
+  538  rails server
+  539  vi app/models/section.rb 
+  540  vi app/models/course.rb 
+  541  rails server
+  542  vi app/views/sections/index.html.erb 
+  543  rails server
+  544  vi app/views/pr
+  545  vi app/views/professors/index.html.erb 
+  546  vi app/views/courses/index.html.erb 
+  547  rails server
+  548  vi app/controllers/professors_controller.rb 
+  549  vi app/views/professors/index.html.erb 
+  550  rails server
+  551  vi app/views/professors/index.html.erb 
+  552  rails server
+  553  vi app/views/professors/index.html.erb 
+  554  rake db:migrate
+  555  rails server
+  556  vi config/routes.rb 
+  557  rails server
+  558  vi app/controllers/professors_controller.rb 
+  559  rails server
+  560  vi config/routes.rb 
+  561  rails server
+  562  vi config/routes.rb 
+  563  vi app/controllers/professors_controller.rb 
+  564  rails serer
+  565  rails server
+  566  vi app/controllers/professors_controller.rb 
+  567  vi app/controllers/sections_controller.rb 
+  568  rails server
+  569  vi app/controllers/sections_controller.rb 
+  570  rails server
+  571  vi app/controllers/professors_controller.rb 
+  572  rails server
+  573  vi app/controllers/professors_controller.rb 
+  574  vi app/controllers/sections_controller.rb 
+  575  rails server
+  576  vi app/controllers/sections_controller.rb 
+  577  rails server
+  578  vi app/views/sections/index.html.erb 
+  579  rails server
+  580  vi app/views/sections/index.html.erb 
+  581  rails server
+  582  vi app/views/sections/index.html.erb 
+  583  vi app/controllers/sections_controller.rb 
+  584  rails server
+  585  rails server
+  586  rails db:migrate
+  587  rails server
+  588  vi app/controllers/professors_controller.rb 
+  589  rails server
+  590  vi app/controllers/professors_controller.rb 
+  591  rails server
+  592  vi app/controllers/professors_controller.rb 
+  593  rails server
+  594  vi app/controllers/professors_controller.rb 
+  595  rails server
+  596  vi app/controllers/professors_controller.rb 
+  597  rails server
+  598  vi app/controllers/professors_controller.rb 
+  599  vi app/views/professors/index.html.erb 
+  600  rails server
+  601  vi app/views/professors/index.html.erb 
+  602  vi app/views/sections/index.html.erb 
+  603  vi app/controllers/sections_controller.rb 
+  604  vi app/controllers/courses_controller.rb 
+  605  vi app/views/courses/index.html.erb 
+  606  vi app/views/professors/index.html.erb 
+  607  vi app/views/sections/index.html.erb 
+  608  vi app/views/courses/index.html.erb 
+  609  rails server
+  610  vi app/views/courses/index.html.erb 
+  611  git diff
+  612  git log
+  613  ls
+  614  ls package.json 
+  615  vi package.json 
+  616  ls -al
+  617  ls bin/
+  618  vi app/views/professors/index.json.jbuilder 
+  619  vi app/views/professors/_professor.json.jbuilder 
+  620  vi app/views/professors/index.json.jbuilder 
+  621  vi app/views/professors/index.json.jbuilder 
+  622  rails db:migrate
+  623  gem devise
+  624  rails generate devise:install
+  625  rails generate devise User
+  626  sudo rails generate devise User
+  627  bundle install
+  628  gem devise
+  629  bundle install gem devise
+  630  gem 'devise'
+  631  gem "devise"
+  632  bundle install
+  633  bundle install >> test.txt
+  634  vi test.txt 
+  635  ls
+  636  rm test.txt 
+  637  ls
+  638  gem install devise
+  639  gem devise
+  640  gem bundle install
+  641  bundle install
+  642  rails generate devise:install
+  643  fuckyou
+  644  clear
+  645  gem uninstall devise
+  646  gem uninstall warden
+  647  bundle install
+  648  bundle info devise
+  649  gem install devise
+  650  rails generate devise:install
+  651  bundle exec rails generate devise:install
+  652  ls -al
+  653  vi Gemfile
+  654  rails generate devise:install
+  655  rails generate devise User
+  656  vi config/routes.rb 
+  657  rails db:migrate
+  658  rake routes
+  659  vi app/views/professors/index.html.erb 
+  660  vi app/views/professors/show.html.erb 
+  661  rails server
+  662  rails db:migrate
+  663  rails server
+  664  rails generate devise:views
+  665  rails server
+  666  vi app/views/devise/sessions/
+  667  vi app/views/devise/sessions/new.html.erb 
+  668  vi app/controllers/professors_controller.rb 
+  669  rails server
+  670  rails
+  671  rails server
+  672  vi app/controllers/sections_controller.rb 
+  673  vi app/controllers/application_controller.rb 
+  674  vi app/controllers/professors_controller.rb 
+  675  vi app/views/sections/index.html.erb 
+  676  vi app/views/sections/show.html.erb 
+  677  vi app/views/courses/show.html.erb 
+  678  vi app/views/courses/index.html.erb 
+  679  rails server
+  680  clear
+  681  vi app/views/devise/sessions/new.html.erb 
+  682  rails server
+  683  vi app/views/devise/sessions/new.html.erb 
+  684  rails server
+  685  ls
+  686  vi diffs.txt 
+  687  ls test/
+  688  clear
+  689  ls
+  690  ls Rakefile 
+  691  cd Rakefile 
+  692  vi Rakefile 
+  693  ls -al
+  694  sass -v
+  695  rails serve
+  696  ls -al
+  697  rails server
+  698  vi app/models/section.rb 
+  699  vi app/models/professor.rb 
+  700  vi app/models/section.rb 
+  701  vi app/views/devise/sessions/new.html.erb 
+  702  vi app/views/devise/passwords/edit.html.erb 
+  703  rails server
+  704  vi =
+  705  vi
+  706  cd ..
+  707  cd ..
+  708  mkdir TuneApp
+  709  cd TuneApp/
+  710  mkdir try1
+  711  cd try1/
+  712  vi tuneApp.sh
+  713  ls -al
+  714  chmod 755 tuneApp.sh 
+  715  ls -al
+  716  ./tuneApp.sh 
+  717  rails server
+  718  ls
+  719  cd university/
+  720  rails server
+  721  cd ..
+  722  vi tuneApp.sh 
+  723  rm -r tuneApp.sh 
+  724  ls
+  725  vi tuneapp.sh
+  726  cd ..
+  727  cd ..
+  728  ls
+  729  cd project/
+  730  ls
+  731  rails server
+  732  cd ..
+  733  ls -al
+  734  cd test
+  735  cd caTests/
+  736  ls
+  737  cd ../testapp/
+  738  ls
+  739  cd ..
+  740  cd TuneApp/
+  741  ls
+  742  open MusicDB.txt 
+  743  cd try1/
+  744  ls
+  745  vi tuneapp.sh 
+  746  cd ../../Assignment1/coursesapp/
+  747  rails server
+  748  vi app/models/user.rb 
+  749  vi app/models/s
+  750  vi app/models/section.rb 
+  751  vi app/controllers/sections_controller.rb 
+  752  vi app/views/sections/index.html.erb 
+  753  rails server
+  754  vi app/controllers/sections_controller.rb 
+  755  rails server
+  756  vi app/controllers/sections_controller.rb 
+  757  vi app/views/sections/index.html.erb 
+  758  rails server
+  759  vi app/views/sections/index.html.erb 
+  760  vi app/controllers/sections_controller.rb 
+  761  rails server
+  762  vi app/controllers/sections_controller.rb 
+  763  vi app/views/sections/index.html.erb 
+  764  rails server
+  765  vi app/views/sections/index.html.erb 
+  766  vi app/controllers/sections_controller.rb 
+  767  rails server
+  768  cd ..
+  769  clear
+  770  cd ..
+  771  cd TuneApp/
+  772  ls
+  773  cd try1/
+  774  ls
+  775  sl
+  776  sl -altF
+  777  cd 
+  778  cd Desktop/Fall2017/Graphics/
+  779  ./snowjob.sh 
+  780  clear
+  781  cd
+  782  cd Desktop/workspace/TuneApp/try1/
+  783  man osascript
+  784  man osascript >> testeroon.txt
+  785  vim testeroon.txt 
+  786  rm testeroon.txt 
+  787  ls
+  788  vim tuneapp.sh 
+  789  osascript -e
+  790  osascript "tell application \"Terminal"\ to set background color of window 1 to {0, 0, 100}"
+  791  osascript -e "tell application \"Terminal"\ to set background color of window 1 to {0, 0, 100}"
+  792  osascript -e 'tell application \"Terminal"\ to set background color of window 1 to {0, 0, 100}'
+  793  ls
+  794  vim tuneapp.sh 
+  795  cd 
+  796  cd Desktop/workspace/Assignment1/
+  797  cd coursesapp/
+  798  ls
+  799  vim app/views/professors/index.json.jbuilder 
+  800  ls
+  801  vim package.json 
+  802  vim app/views/professors/index.html.erb 
+  803  rails server
+  804  vim app/views/professors/index.html.erb 
+  805  rails server
+  806  vim app/views/professors/index.json.jbuilder 
+  807  vim app/views/professors/index.html.erb 
+  808  rails server
+  809  vim app/views/professors/index.html.erb 
+  810  rails server
+  811  vim app/views/professors/index.html.erb 
+  812  gem list
+  813  vim app/controllers/professors_controller.rb 
+  814  rails server
+  815  vim app/controllers/professors_controller.rb 
+  816  rails server
+  817  vim app/controllers/professors_controller.rb 
+  818  rails server
+  819  vim app/controllers/professors_controller.rb 
+  820  rails server
+  821  vim app/controllers/professors_controller.rb 
+  822  rails server
+  823  vim app/views/professors/index.html.erb 
+  824  vim app/models/professor.rb 
+  825  vim app/models/section.rb 
+  826  vim app/models/professor.rb 
+  827  vim app/models/course.rb 
+  828  vim app/models/professor.rb 
+  829  vim app/views/professors/index.html.erb 
+  830  git dif
+  831  git diff
+  832  git diff >> diffs
+  833  vim diffs
+  834  vim app/assets/stylesheets/application.css 
+  835  vim app/assets/stylesheets/scaffolds.scss 
+  836  vim app/models/professor.rb 
+  837  git diff
+  838  vim app/models/professor.rb 
+  839  vim app/models/professor.rb 
+  840  vim app/models/professor.rb 
+  841  git diff
+  842  vim app/models/professor.rb 
+  843  vim app/models/professor.rb 
+  844  git diff
+  845  vim app/models/professor.rb 
+  846  vim app/models/professor.rb 
+  847  vim app/models/professor.rb 
+  848  vim app/models/professor.rb 
+  849  vim app/models/professor.rb 
+  850  vim app/models/professor.rb 
+  851  git diff
+  852  vim app/models/professor.rb 
+  853  rails server
+  854  vim app/models/professor.rb 
+  855  git diff
+  856  vim app/models/course.rb 
+  857  rails server
+  858  vim app/models/course.rb 
+  859  rails server
+  860  vim app/models/course.rb 
+  861  rails server
+  862  vim app/controllers/courses_controller.rb 
+  863  vim app/models/course.rb 
+  864  rails server
+  865  vim app/models/course.rb 
+  866  rails server
+  867  vim app/models/course.rb 
+  868  rails server
+  869  vim app/models/course.rb 
+  870  rails server
+  871  vim app/models/course.rb 
+  872  rails server
+  873  vim app/models/course.rb 
+  874  rails server
+  875  rails server
+  876  vim app/models/course.rb 
+  877  rails server
+  878  vim app/models/course.rb 
+  879  rails server
+  880  vim app/models/course.rb 
+  881  vim app/models/course.rb 
+  882  rails server
+  883  vim app/models/course.rb 
+  884  rails server
+  885  vim app/models/course.rb 
+  886  git diff
+  887  rails server
+  888  vim app/models/course.rb 
+  889  vim app/models/section.rb 
+  890  rails server
+  891  vim app/models/section.rb 
+  892  rails server
+  893  vim app/models/section.rb 
+  894  rails server
+  895  vim app/models/section.rb 
+  896  rails server
+  897  vim app/models/section.rb 
+  898  git diff
+  899  vim app/models/section.rb 
+  900  git diff
+  901  rails server
+  902  vim app/views/sections/_form.html.erb 
+  903  rails server
+  904  vim app/models/section.rb 
+  905  rails server
+  906  vim app/models/section.rb 
+  907  rails server
+  908  vim app/models/section.rb 
+  909  rails server
+  910  vim app/models/section.rb 
+  911  rails server
+  912  vim app/models/section.rb 
+  913  git diff
+  914  vim app/models/section.rb 
+  915  rails server
+  916  vim app/models/section.rb 
+  917  history
+  918  history > history

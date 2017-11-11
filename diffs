@@ -1,0 +1,322 @@
+diff --git a/app/controllers/application_controller.rb b/app/controllers/application_controller.rb
+index 1c07694..0800f82 100644
+--- a/app/controllers/application_controller.rb
++++ b/app/controllers/application_controller.rb
+@@ -1,3 +1,5 @@
+ class ApplicationController < ActionController::Base
++  before_action :authenticate_user!
++
+   protect_from_forgery with: :exception
+ end
+diff --git a/app/controllers/courses_controller.rb b/app/controllers/courses_controller.rb
+index 30a6d44..a2746a5 100644
+--- a/app/controllers/courses_controller.rb
++++ b/app/controllers/courses_controller.rb
+@@ -1,6 +1,11 @@
+ class CoursesController < ApplicationController
+   before_action :set_course, only: [:show, :edit, :update, :destroy]
+ 
++  def search
++    @courses = Course.where("name like ?", "%#{params[:q]}%")
++    render :index
++  end
++
+   # GET /courses
+   # GET /courses.json
+   def index
+diff --git a/app/controllers/professors_controller.rb b/app/controllers/professors_controller.rb
+index 195b737..e280470 100644
+--- a/app/controllers/professors_controller.rb
++++ b/app/controllers/professors_controller.rb
+@@ -1,6 +1,11 @@
+ class ProfessorsController < ApplicationController
+   before_action :set_professor, only: [:show, :edit, :update, :destroy]
+ 
++  def search
++    @professors = Professor.where("name like ?", "%#{params[:q]}%")
++    render :index
++  end
++
+   # GET /professors
+   # GET /professors.json
+   def index
+diff --git a/app/controllers/sections_controller.rb b/app/controllers/sections_controller.rb
+index 90d5ca3..27dcf71 100644
+--- a/app/controllers/sections_controller.rb
++++ b/app/controllers/sections_controller.rb
+@@ -1,6 +1,11 @@
+ class SectionsController < ApplicationController
+   before_action :set_section, only: [:show, :edit, :update, :destroy]
+ 
++  def search
++    @sections = Section.where("crn like ?", "%#{params[:q]}%")
++    render :index 
++  end
++
+   # GET /sections
+   # GET /sections.json
+   def index
+diff --git a/app/models/course.rb b/app/models/course.rb
+index 675019b..093e55f 100644
+--- a/app/models/course.rb
++++ b/app/models/course.rb
+@@ -1,4 +1,13 @@
+ class Course < ApplicationRecord
+   has_many :sections
+   has_many :professors, through: :sections
++
++  validates_associated :professors
++  
++  validates :name, presence: true, length: {in: 3..55}
++  validates :number, presence: true, length: {maximum: 5}
++  validates :department, presence: true, length: {maximum: 3}
++  validates :credits, presence: true, length: {maximum: 1}
++  validates :semester, presence: true, inclusion: {in: %w(Fall Spring Summer)}
++  validates :year, presence: true, length: {maximum: 4} 
+ end
+diff --git a/app/models/professor.rb b/app/models/professor.rb
+index bc1da14..71b951c 100644
+--- a/app/models/professor.rb
++++ b/app/models/professor.rb
+@@ -1,4 +1,13 @@
+ class Professor < ApplicationRecord
+   has_many :sections
+   has_many :courses, through: :sections
++
++  validates_associated :courses
++
++  validates :name, length: {minimum: 4}, uniqueness: true, presence: true
++  validates :office, length: {maximum: 8}
++  validates :phone, length: {minimum: 10}, numericality: {only_integer: true}, uniqueness: true
++  validates :email, length: {maximum: 35}, presence: true
++  validates :department, length: {maximum: 3}, presence: true
++
+ end
+diff --git a/app/models/section.rb b/app/models/section.rb
+index 686a0d0..2d3127e 100644
+--- a/app/models/section.rb
++++ b/app/models/section.rb
+@@ -1,4 +1,14 @@
+ class Section < ApplicationRecord
+   belongs_to :professor
+   belongs_to :course
++
++  validates :professor, presence: true
++  validates :course, presence: true
++
++  validates :crn, length: {maximum: 5}, numericality: {only_integer: true}, presence: true, uniqueness: true
++  validates :number, length: {maximum: 2}, numericality: {only_integer: true}, presence: true
++  validates :room, length: {maximum: 8}
++  validates :day, length: {maximum: 5}, presence: true
++  validates :begintime, length: {maximum: 5}, presence: true
++  validates :endtime, length: {maximum: 5}, presence: true
+ end
+diff --git a/app/views/courses/index.html.erb b/app/views/courses/index.html.erb
+index 8c2f5b1..1f114a6 100644
+--- a/app/views/courses/index.html.erb
++++ b/app/views/courses/index.html.erb
+@@ -2,6 +2,14 @@
+ 
+ <h1>Courses</h1>
+ 
++<%= form_tag(search_courses_url, method: "get") do %>
++  <%= label_tag(:q, "Search by Course Name:") %>
++  <%= text_field_tag(:q) %>
++  <%= submit_tag("Search") %>
++<% end %>
++
++<br>
++
+ <table>
+   <thead>
+     <tr>
+@@ -35,3 +43,14 @@
+ <br>
+ 
+ <%= link_to 'New Course', new_course_path %>
++
++<br>
++<br>
++
++<%= link_to 'Professors', professors_url %>
++<%= link_to 'Sections', sections_url %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/courses/show.html.erb b/app/views/courses/show.html.erb
+index d7ed143..3c14092 100644
+--- a/app/views/courses/show.html.erb
++++ b/app/views/courses/show.html.erb
+@@ -44,3 +44,8 @@
+ 
+ <%= link_to 'Edit', edit_course_path(@course) %> |
+ <%= link_to 'Back', courses_path %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/professors/index.html.erb b/app/views/professors/index.html.erb
+index 9b08ccd..759b0be 100644
+--- a/app/views/professors/index.html.erb
++++ b/app/views/professors/index.html.erb
+@@ -2,6 +2,14 @@
+ 
+ <h1>Professors</h1>
+ 
++<%= form_tag(search_professors_url, method: "get") do %>
++  <%= label_tag(:q, "Search by Name:") %>
++  <%= text_field_tag(:q) %>
++  <%= submit_tag("Search") %>
++<% end %>
++
++<br>
++
+ <table>
+   <thead>
+     <tr>
+@@ -33,3 +41,14 @@
+ <br>
+ 
+ <%= link_to 'New Professor', new_professor_path %>
++
++<br>
++<br>
++
++<%= link_to 'Sections', sections_url %>
++<%= link_to 'Courses', courses_url %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/professors/show.html.erb b/app/views/professors/show.html.erb
+index 26914d3..5ec4601 100644
+--- a/app/views/professors/show.html.erb
++++ b/app/views/professors/show.html.erb
+@@ -42,3 +42,8 @@
+ 
+ <%= link_to 'Edit', edit_professor_path(@professor) %> |
+ <%= link_to 'Back', professors_path %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/sections/index.html.erb b/app/views/sections/index.html.erb
+index 92060e8..c469066 100644
+--- a/app/views/sections/index.html.erb
++++ b/app/views/sections/index.html.erb
+@@ -2,6 +2,14 @@
+ 
+ <h1>Sections</h1>
+ 
++<%= form_tag(search_sections_url, method: "get") do %>
++  <%= label_tag(:q, "Search by CRN:") %>
++  <%= text_field_tag(:q) %>
++  <%= submit_tag("Search") %>
++<% end %>
++
++<br>
++
+ <table>
+   <thead>
+     <tr>
+@@ -41,3 +49,14 @@
+ <br>
+ 
+ <%= link_to 'New Section', new_section_path %>
++
++<br>
++<br>
++<%= link_to 'Professors', professors_path %>
++<%= link_to 'Courses', courses_path %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
++
+diff --git a/app/views/sections/show.html.erb b/app/views/sections/show.html.erb
+index 71efb1b..6a2ecd8 100644
+--- a/app/views/sections/show.html.erb
++++ b/app/views/sections/show.html.erb
+@@ -50,3 +50,8 @@
+ 
+ <%= link_to 'Edit', edit_section_path(@section) %> |
+ <%= link_to 'Back', sections_path %>
++
++<br>
++<br>
++
++<%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/config/routes.rb b/config/routes.rb
+index 763fd4b..7db32fb 100644
+--- a/config/routes.rb
++++ b/config/routes.rb
+@@ -1,6 +1,25 @@
+ Rails.application.routes.draw do
+-  resources :sections
+-  resources :courses
+-  resources :professors
++  devise_for :users
++  
++  root to: 'sections#index'
++
++  resources :sections do
++    collection do
++      get 'search'
++    end
++  end
++
++  resources :courses do
++    collection do
++      get 'search'
++    end
++  end
++  
++  resources :professors do
++    collection do
++      get 'search'
++    end
++  end
++
+   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+ end
+diff --git a/db/schema.rb b/db/schema.rb
+index 03be565..3e79a58 100644
+--- a/db/schema.rb
++++ b/db/schema.rb
+@@ -10,7 +10,7 @@
+ #
+ # It's strongly recommended that you check this file into your version control system.
+ 
+-ActiveRecord::Schema.define(version: 20170917041648) do
++ActiveRecord::Schema.define(version: 20170929073023) do
+ 
+   create_table "courses", force: :cascade do |t|
+     t.string "name"
+@@ -48,4 +48,21 @@ ActiveRecord::Schema.define(version: 20170917041648) do
+     t.index ["professor_id"], name: "index_sections_on_professor_id"
+   end
+ 
++  create_table "users", force: :cascade do |t|
++    t.string "email", default: "", null: false
++    t.string "encrypted_password", default: "", null: false
++    t.string "reset_password_token"
++    t.datetime "reset_password_sent_at"
++    t.datetime "remember_created_at"
++    t.integer "sign_in_count", default: 0, null: false
++    t.datetime "current_sign_in_at"
++    t.datetime "last_sign_in_at"
++    t.string "current_sign_in_ip"
++    t.string "last_sign_in_ip"
++    t.datetime "created_at", null: false
++    t.datetime "updated_at", null: false
++    t.index ["email"], name: "index_users_on_email", unique: true
++    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
++  end
++
+ end

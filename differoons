@@ -1,0 +1,1066 @@
+diff --git a/app/assets/javascripts/enrollments.coffee b/app/assets/javascripts/enrollments.coffee
+new file mode 100644
+index 0000000..24f83d1
+--- /dev/null
++++ b/app/assets/javascripts/enrollments.coffee
+@@ -0,0 +1,3 @@
++# Place all the behaviors and hooks related to the matching controller here.
++# All this logic will automatically be available in application.js.
++# You can use CoffeeScript in this file: http://coffeescript.org/
+diff --git a/app/assets/javascripts/students.coffee b/app/assets/javascripts/students.coffee
+new file mode 100644
+index 0000000..24f83d1
+--- /dev/null
++++ b/app/assets/javascripts/students.coffee
+@@ -0,0 +1,3 @@
++# Place all the behaviors and hooks related to the matching controller here.
++# All this logic will automatically be available in application.js.
++# You can use CoffeeScript in this file: http://coffeescript.org/
+diff --git a/app/assets/stylesheets/enrollments.scss b/app/assets/stylesheets/enrollments.scss
+new file mode 100644
+index 0000000..c4d315e
+--- /dev/null
++++ b/app/assets/stylesheets/enrollments.scss
+@@ -0,0 +1,3 @@
++// Place all the styles related to the Enrollments controller here.
++// They will automatically be included in application.css.
++// You can use Sass (SCSS) here: http://sass-lang.com/
+diff --git a/app/assets/stylesheets/scaffolds.scss b/app/assets/stylesheets/scaffolds.scss
+index 6045188..22e764e 100644
+--- a/app/assets/stylesheets/scaffolds.scss
++++ b/app/assets/stylesheets/scaffolds.scss
+@@ -20,7 +20,7 @@ pre {
+ }
+ 
+ a {
+-  color: #000;
++  color: blue;
+ 
+   &:visited {
+     color: #666;
+@@ -34,6 +34,7 @@ a {
+ 
+ th {
+   padding-bottom: 5px;
++  text-align: left;
+ }
+ 
+ td {
+@@ -82,3 +83,57 @@ div {
+ label {
+   display: block;
+ }
++
++.header {
++  background: #39FF90;
++}
++
++.college {
++  font-family: Futura;
++  font-size: 28px;
++  text-align: center;
++
++  .motto {
++    font-family: "Century Gothic";
++    font-style: italic;
++    font-size: 12px;
++  }
++}
++
++.navbar {
++  font-size: 14px;
++  text-align: center;
++
++  table{
++    background-color: solid #39FF90;
++    margin: auto;
++    border: solid #24BF68;
++  }
++  
++  th {
++    background-color: #24BF68;
++    padding: 10px;
++  }
++}
++
++.show-list {
++  text-align: left;
++  
++  td {
++    vertical-align: top;
++  }
++}
++
++table {
++  border: 1px solid black;
++}
++
++tr:nth-child(even) {
++  background-color: #F2F2F2
++}
++  
++th {
++  background-color: #33BBFF;
++  color: white;
++  padding: 3px;
++}
+diff --git a/app/assets/stylesheets/sections.scss b/app/assets/stylesheets/sections.scss
+index a85ac12..7868e2c 100644
+--- a/app/assets/stylesheets/sections.scss
++++ b/app/assets/stylesheets/sections.scss
+@@ -1,3 +1,4 @@
+ // Place all the styles related to the Sections controller here.
+ // They will automatically be included in application.css.
+ // You can use Sass (SCSS) here: http://sass-lang.com/
++
+diff --git a/app/assets/stylesheets/students.scss b/app/assets/stylesheets/students.scss
+new file mode 100644
+index 0000000..f5e154d
+--- /dev/null
++++ b/app/assets/stylesheets/students.scss
+@@ -0,0 +1,3 @@
++// Place all the styles related to the Students controller here.
++// They will automatically be included in application.css.
++// You can use Sass (SCSS) here: http://sass-lang.com/
+diff --git a/app/controllers/courses_controller.rb b/app/controllers/courses_controller.rb
+index a2746a5..610155b 100644
+--- a/app/controllers/courses_controller.rb
++++ b/app/controllers/courses_controller.rb
+@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
+   before_action :set_course, only: [:show, :edit, :update, :destroy]
+ 
+   def search
+-    @courses = Course.where("name like ?", "%#{params[:q]}%")
++    @courses = Course.where("name || department like ?", "%#{params[:q]}%")
+     render :index
+   end
+ 
+diff --git a/app/controllers/enrollments_controller.rb b/app/controllers/enrollments_controller.rb
+new file mode 100644
+index 0000000..a4c0ae3
+--- /dev/null
++++ b/app/controllers/enrollments_controller.rb
+@@ -0,0 +1,74 @@
++class EnrollmentsController < ApplicationController
++  before_action :set_enrollment, only: [:show, :edit, :update, :destroy]
++
++  # GET /enrollments
++  # GET /enrollments.json
++  def index
++    @enrollments = Enrollment.all
++  end
++
++  # GET /enrollments/1
++  # GET /enrollments/1.json
++  def show
++  end
++
++  # GET /enrollments/new
++  def new
++    @enrollment = Enrollment.new
++  end
++
++  # GET /enrollments/1/edit
++  def edit
++  end
++
++  # POST /enrollments
++  # POST /enrollments.json
++  def create
++    @enrollment = Enrollment.new(enrollment_params)
++
++    respond_to do |format|
++      if @enrollment.save
++        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully created.' }
++        format.json { render :show, status: :created, location: @enrollment }
++      else
++        format.html { render :new }
++        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
++      end
++    end
++  end
++
++  # PATCH/PUT /enrollments/1
++  # PATCH/PUT /enrollments/1.json
++  def update
++    respond_to do |format|
++      if @enrollment.update(enrollment_params)
++        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully updated.' }
++        format.json { render :show, status: :ok, location: @enrollment }
++      else
++        format.html { render :edit }
++        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
++      end
++    end
++  end
++
++  # DELETE /enrollments/1
++  # DELETE /enrollments/1.json
++  def destroy
++    @enrollment.destroy
++    respond_to do |format|
++      format.html { redirect_to enrollments_url, notice: 'Enrollment was successfully destroyed.' }
++      format.json { head :no_content }
++    end
++  end
++
++  private
++    # Use callbacks to share common setup or constraints between actions.
++    def set_enrollment
++      @enrollment = Enrollment.find(params[:id])
++    end
++
++    # Never trust parameters from the scary internet, only allow the white list through.
++    def enrollment_params
++      params.require(:enrollment).permit(:section_id, :student_id)
++    end
++end
+diff --git a/app/controllers/professors_controller.rb b/app/controllers/professors_controller.rb
+index e280470..f98eb0f 100644
+--- a/app/controllers/professors_controller.rb
++++ b/app/controllers/professors_controller.rb
+@@ -2,7 +2,7 @@ class ProfessorsController < ApplicationController
+   before_action :set_professor, only: [:show, :edit, :update, :destroy]
+ 
+   def search
+-    @professors = Professor.where("name like ?", "%#{params[:q]}%")
++    @professors = Professor.where("name || department like ?", "%#{params[:q]}%")
+     render :index
+   end
+ 
+diff --git a/app/controllers/students_controller.rb b/app/controllers/students_controller.rb
+new file mode 100644
+index 0000000..f2f518f
+--- /dev/null
++++ b/app/controllers/students_controller.rb
+@@ -0,0 +1,79 @@
++class StudentsController < ApplicationController
++  before_action :set_student, only: [:show, :edit, :update, :destroy]
++
++  def search
++    @students = Student.where("name || major like ?", "%#{params[:q]}%")
++    render :index
++  end 
++
++  # GET /students
++  # GET /students.json
++  def index
++    @students = Student.all
++  end
++
++  # GET /students/1
++  # GET /students/1.json
++  def show
++  end
++
++  # GET /students/new
++  def new
++    @student = Student.new
++  end
++
++  # GET /students/1/edit
++  def edit
++  end
++
++  # POST /students
++  # POST /students.json
++  def create
++    @student = Student.new(student_params)
++
++    respond_to do |format|
++      if @student.save
++        format.html { redirect_to @student, notice: 'Student was successfully created.' }
++        format.json { render :show, status: :created, location: @student }
++      else
++        format.html { render :new }
++        format.json { render json: @student.errors, status: :unprocessable_entity }
++      end
++    end
++  end
++
++  # PATCH/PUT /students/1
++  # PATCH/PUT /students/1.json
++  def update
++    respond_to do |format|
++      if @student.update(student_params)
++        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
++        format.json { render :show, status: :ok, location: @student }
++      else
++        format.html { render :edit }
++        format.json { render json: @student.errors, status: :unprocessable_entity }
++      end
++    end
++  end
++
++  # DELETE /students/1
++  # DELETE /students/1.json
++  def destroy
++    @student.destroy
++    respond_to do |format|
++      format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
++      format.json { head :no_content }
++    end
++  end
++
++  private
++    # Use callbacks to share common setup or constraints between actions.
++    def set_student
++      @student = Student.find(params[:id])
++    end
++
++    # Never trust parameters from the scary internet, only allow the white list through.
++    def student_params
++      params.require(:student).permit(:name, :email, :major, :minor, :year, :graduation)
++    end
++end
+diff --git a/app/helpers/enrollments_helper.rb b/app/helpers/enrollments_helper.rb
+new file mode 100644
+index 0000000..b2f16f0
+--- /dev/null
++++ b/app/helpers/enrollments_helper.rb
+@@ -0,0 +1,2 @@
++module EnrollmentsHelper
++end
+diff --git a/app/helpers/students_helper.rb b/app/helpers/students_helper.rb
+new file mode 100644
+index 0000000..6191d9e
+--- /dev/null
++++ b/app/helpers/students_helper.rb
+@@ -0,0 +1,2 @@
++module StudentsHelper
++end
+diff --git a/app/models/enrollment.rb b/app/models/enrollment.rb
+new file mode 100644
+index 0000000..685f0d7
+--- /dev/null
++++ b/app/models/enrollment.rb
+@@ -0,0 +1,7 @@
++class Enrollment < ApplicationRecord
++  belongs_to :section
++  belongs_to :student
++
++  validates :section, presence: true
++  validates :student, presence: true
++end
+diff --git a/app/models/section.rb b/app/models/section.rb
+index 22d8e0c..ea482ef 100644
+--- a/app/models/section.rb
++++ b/app/models/section.rb
+@@ -1,10 +1,14 @@
+ class Section < ApplicationRecord
+   belongs_to :professor
+   belongs_to :course
+-
++  has_many :enrollments
++  has_many :students, through: :enrollments
++  
+   validates :professor, presence: true
+   validates :course, presence: true
+ 
++  validates_associated :students
++
+   validates :crn, length: {is: 5}, presence: true, uniqueness: true, inclusion: {in: 10000..99999}
+   validates :number, length: {maximum: 2}, numericality: {only_integer: true}, presence: true
+   validates :room, length: {maximum: 8}
+diff --git a/app/models/student.rb b/app/models/student.rb
+new file mode 100644
+index 0000000..fb47d61
+--- /dev/null
++++ b/app/models/student.rb
+@@ -0,0 +1,13 @@
++class Student < ApplicationRecord
++  has_many :enrollments
++  has_many :sections, through: :enrollments
++
++  validates_associated :sections
++  
++  validates :name, presence: true, length: {maximum: 40, minimum: 4}
++  validates :email, uniqueness: true, presence: true, length: {maximum: 50, minimum: 10}, format: /@/
++  validates :major, length: {maximum: 35}
++  validates :minor, length: {maximum: 40}
++  validates :year, presence: true, inclusion: {in: %w(Freshman Sophomore Junior Senior Graduate PhD)}, length: {maximum: 10}
++  validates :graduation, length: {maximum: 11, message: "Must be in 'Semester Year' Format"} 
++end
+diff --git a/app/views/courses/index.html.erb b/app/views/courses/index.html.erb
+index 1f114a6..6876d0e 100644
+--- a/app/views/courses/index.html.erb
++++ b/app/views/courses/index.html.erb
+@@ -3,7 +3,7 @@
+ <h1>Courses</h1>
+ 
+ <%= form_tag(search_courses_url, method: "get") do %>
+-  <%= label_tag(:q, "Search by Course Name:") %>
++  <%= label_tag(:q, "Search by Course Name or Department:") %>
+   <%= text_field_tag(:q) %>
+   <%= submit_tag("Search") %>
+ <% end %>
+@@ -47,10 +47,4 @@
+ <br>
+ <br>
+ 
+-<%= link_to 'Professors', professors_url %>
+-<%= link_to 'Sections', sections_url %>
+-
+-<br>
+-<br>
+-
+ <%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/devise/sessions/new.html.erb b/app/views/devise/sessions/new.html.erb
+index 9dc59da..9cbfc8d 100644
+--- a/app/views/devise/sessions/new.html.erb
++++ b/app/views/devise/sessions/new.html.erb
+@@ -1,6 +1,3 @@
+-<h1>Greendale Community College</h1>
+-
+-<br>
+ 
+ <h2>Log in</h2>
+ 
+diff --git a/app/views/enrollments/_enrollment.json.jbuilder b/app/views/enrollments/_enrollment.json.jbuilder
+new file mode 100644
+index 0000000..1153e2f
+--- /dev/null
++++ b/app/views/enrollments/_enrollment.json.jbuilder
+@@ -0,0 +1,2 @@
++json.extract! enrollment, :id, :section_id, :student_id, :created_at, :updated_at
++json.url enrollment_url(enrollment, format: :json)
+diff --git a/app/views/enrollments/_form.html.erb b/app/views/enrollments/_form.html.erb
+new file mode 100644
+index 0000000..7a4c4db
+--- /dev/null
++++ b/app/views/enrollments/_form.html.erb
+@@ -0,0 +1,27 @@
++<%= form_with(model: enrollment, local: true) do |form| %>
++  <% if enrollment.errors.any? %>
++    <div id="error_explanation">
++      <h2><%= pluralize(enrollment.errors.count, "error") %> prohibited this enrollment from being saved:</h2>
++
++      <ul>
++      <% enrollment.errors.full_messages.each do |message| %>
++        <li><%= message %></li>
++      <% end %>
++      </ul>
++    </div>
++  <% end %>
++
++  <div class="field">
++    <%= form.label :section_id %>
++    <%= form.select(:section_id, options_from_collection_for_select(Section.all, :id, :crn)) %>
++  </div>
++
++  <div class="field">
++    <%= form.label :student_id %>
++    <%= form.select(:student_id, options_from_collection_for_select(Student.all, :id, :name)) %>
++  </div>
++
++  <div class="actions">
++    <%= form.submit %>
++  </div>
++<% end %>
+diff --git a/app/views/enrollments/edit.html.erb b/app/views/enrollments/edit.html.erb
+new file mode 100644
+index 0000000..b547cf0
+--- /dev/null
++++ b/app/views/enrollments/edit.html.erb
+@@ -0,0 +1,6 @@
++<h1>Editing Enrollment</h1>
++
++<%= render 'form', enrollment: @enrollment %>
++
++<%= link_to 'Show', @enrollment %> |
++<%= link_to 'Back', enrollments_path %>
+diff --git a/app/views/enrollments/index.html.erb b/app/views/enrollments/index.html.erb
+new file mode 100644
+index 0000000..c39b4a6
+--- /dev/null
++++ b/app/views/enrollments/index.html.erb
+@@ -0,0 +1,35 @@
++<p id="notice"><%= notice %></p>
++
++<h1>Enrollments</h1>
++
++<table>
++  <thead>
++    <tr>
++      <th>Student</th>
++      <th>Section</th>
++      <th>CRN</th>
++      <th>Course</th>
++      <th>Professor</th>
++      <th colspan="3"></th>
++    </tr>
++  </thead>
++
++  <tbody>
++    <% @enrollments.each do |enrollment| %>
++      <tr>
++        <td><%= enrollment.student.name %></td>
++        <td><%= enrollment.section.number %></td>
++        <td><%= enrollment.section.course.name %></td>
++        <td><%= enrollment.section.crn %></td>
++        <td><%= enrollment.section.professor.name %></td>
++        <td><%= link_to 'Show', enrollment %></td>
++        <td><%= link_to 'Edit', edit_enrollment_path(enrollment) %></td>
++        <td><%= link_to 'Destroy', enrollment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
++      </tr>
++    <% end %>
++  </tbody>
++</table>
++
++<br>
++
++<%= link_to 'New Enrollment', new_enrollment_path %>
+diff --git a/app/views/enrollments/index.json.jbuilder b/app/views/enrollments/index.json.jbuilder
+new file mode 100644
+index 0000000..77a4662
+--- /dev/null
++++ b/app/views/enrollments/index.json.jbuilder
+@@ -0,0 +1 @@
++json.array! @enrollments, partial: 'enrollments/enrollment', as: :enrollment
+diff --git a/app/views/enrollments/new.html.erb b/app/views/enrollments/new.html.erb
+new file mode 100644
+index 0000000..e6b5fd8
+--- /dev/null
++++ b/app/views/enrollments/new.html.erb
+@@ -0,0 +1,5 @@
++<h1>New Enrollment</h1>
++
++<%= render 'form', enrollment: @enrollment %>
++
++<%= link_to 'Back', enrollments_path %>
+diff --git a/app/views/enrollments/show.html.erb b/app/views/enrollments/show.html.erb
+new file mode 100644
+index 0000000..5b28210
+--- /dev/null
++++ b/app/views/enrollments/show.html.erb
+@@ -0,0 +1,30 @@
++<p id="notice"><%= notice %></p>
++
++
++<p>
++  <strong>Course Name:</strong>
++  <%= @enrollment.section.course.name %>
++</p>
++
++<p>
++  <strong>Section:</strong>
++  <%= @enrollment.section.crn %>
++</p>
++
++<p>
++  <strong>Professor:</strong>
++  <%= @enrollment.section.professor.name %>
++</p>
++
++<p>
++  <strong>Student:</strong>
++  <%= @enrollment.student.name %>
++</p>
++
++<p>
++  <strong>Credits:</strong>
++  <%= @enrollment.section.course.credit %>
++</p>
++
++<%= link_to 'Edit', edit_enrollment_path(@enrollment) %> |
++<%= link_to 'Back', enrollments_path %>
+diff --git a/app/views/enrollments/show.json.jbuilder b/app/views/enrollments/show.json.jbuilder
+new file mode 100644
+index 0000000..ff8ed38
+--- /dev/null
++++ b/app/views/enrollments/show.json.jbuilder
+@@ -0,0 +1 @@
++json.partial! "enrollments/enrollment", enrollment: @enrollment
+diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb
+index 421090e..af94168 100644
+--- a/app/views/layouts/application.html.erb
++++ b/app/views/layouts/application.html.erb
+@@ -1,7 +1,7 @@
+ <!DOCTYPE html>
+ <html>
+   <head>
+-    <title>Coursesapp</title>
++    <title>Greendale Community College</title>
+     <%= csrf_meta_tags %>
+ 
+     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+@@ -9,6 +9,29 @@
+   </head>
+ 
+   <body>
++    <div class="header">
++      <div class="college">
++        <br>
++        <h1>GREENDALE COMMUNITY COLLEGE</h1>
++        <p class="motto">Home of the Human Beings!</p>
++      </div>
++
++      <div class="navbar">
++        <table>
++          <thead>
++            <tr>
++              <th><%= link_to 'Professors', professors_path %></th>
++              <th><%= link_to 'Sections', sections_path %></th>
++              <th><%= link_to 'Courses', courses_path %></th>
++              <th><%= link_to 'Students', students_path %></th>
++              <th><%= link_to 'Enrollments', enrollments_path %></th>
++              <th><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></th>
++            </tr>
++          </thead>
++        </table>   
++      </div> 
++    </div>
++
+     <%= yield %>
+   </body>
+ </html>
+diff --git a/app/views/professors/index.html.erb b/app/views/professors/index.html.erb
+index 759b0be..829770a 100644
+--- a/app/views/professors/index.html.erb
++++ b/app/views/professors/index.html.erb
+@@ -3,7 +3,7 @@
+ <h1>Professors</h1>
+ 
+ <%= form_tag(search_professors_url, method: "get") do %>
+-  <%= label_tag(:q, "Search by Name:") %>
++  <%= label_tag(:q, "Search by Professor Name or Department:") %>
+   <%= text_field_tag(:q) %>
+   <%= submit_tag("Search") %>
+ <% end %>
+@@ -45,10 +45,4 @@
+ <br>
+ <br>
+ 
+-<%= link_to 'Sections', sections_url %>
+-<%= link_to 'Courses', courses_url %>
+-
+-<br>
+-<br>
+-
+ <%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+diff --git a/app/views/professors/show.html.erb b/app/views/professors/show.html.erb
+index 5ec4601..3d680e7 100644
+--- a/app/views/professors/show.html.erb
++++ b/app/views/professors/show.html.erb
+@@ -25,20 +25,41 @@
+   <%= @professor.department %>
+ </p>
+ 
+-<p>
+-  <% # Help from: ActiveRecord PowerPoint %>
+-  <strong>Courses:</strong>
+-  <% @professor.sections.each do |section| %>
+-  <li>  <%= section.course.semester %>
+-        <%= section.course.year %> 
+-        <%= section.course.name %>
+-        <%= section.course.number %>
+-        <%= section.number %>
+-        <%= section.day %>
+-        <%= section.begintime %>
+-        <%= section.endtime %>
+-  <% end %>
+-</p>
++<div class="show-list">
++  <strong>Courses and Enrolled Students:</strong>
++  <table>
++    <thead>
++      <tr>
++        <th>Course</th>
++        <th>CRN</th>
++        <th>Section</th>
++        <th>Days</th>
++        <th>Begin Time</th>
++        <th>End Time</th>
++        <th>Semester</th>
++        <th>Students and Emails</th>
++      </tr>
++    </thead>
++  
++    <tbody>
++      <% @professor.sections.each do |section| %>
++        <tr>
++          <td><%= section.course.name %></td>
++          <td><%= section.crn %></td>
++          <td><%= section.number %></td>
++          <td><%= section.day %></td>
++          <td><%= section.begintime %></td>
++          <td><%= section.endtime %></td>
++          <td><%= section.course.semester %> <%= section.course.year %></td>
++          <td><%  section.enrollments.each do |enrollment| %>
++            <li><%= enrollment.student.name %>, <%= enrollment.student.email %></li>
++               <% end %>
++          </td>
++        </tr>
++      <% end %>
++    </tbody>
++  </table>
++</div>
+ 
+ <%= link_to 'Edit', edit_professor_path(@professor) %> |
+ <%= link_to 'Back', professors_path %>
+diff --git a/app/views/sections/index.html.erb b/app/views/sections/index.html.erb
+index c469066..009324a 100644
+--- a/app/views/sections/index.html.erb
++++ b/app/views/sections/index.html.erb
+@@ -52,11 +52,6 @@
+ 
+ <br>
+ <br>
+-<%= link_to 'Professors', professors_path %>
+-<%= link_to 'Courses', courses_path %>
+-
+-<br>
+-<br>
+ 
+ <%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+ 
+diff --git a/app/views/sections/show.html.erb b/app/views/sections/show.html.erb
+index 6a2ecd8..218532b 100644
+--- a/app/views/sections/show.html.erb
++++ b/app/views/sections/show.html.erb
+@@ -48,6 +48,13 @@
+   <%= @section.endtime %>
+ </p>
+ 
++<div class="show-list">
++  <strong>Enrolled Students:</strong>
++  <% @section.enrollments.each do |enrollment| %>
++    <li><%= enrollment.student.name %></li>
++  <% end %>
++</div>
++
+ <%= link_to 'Edit', edit_section_path(@section) %> |
+ <%= link_to 'Back', sections_path %>
+ 
+diff --git a/app/views/students/_form.html.erb b/app/views/students/_form.html.erb
+new file mode 100644
+index 0000000..8e82184
+--- /dev/null
++++ b/app/views/students/_form.html.erb
+@@ -0,0 +1,47 @@
++<%= form_with(model: student, local: true) do |form| %>
++  <% if student.errors.any? %>
++    <div id="error_explanation">
++      <h2><%= pluralize(student.errors.count, "error") %> prohibited this student from being saved:</h2>
++
++      <ul>
++      <% student.errors.full_messages.each do |message| %>
++        <li><%= message %></li>
++      <% end %>
++      </ul>
++    </div>
++  <% end %>
++
++  <div class="field">
++    <%= form.label :name %>
++    <%= form.text_field :name, id: :student_name %>
++  </div>
++
++  <div class="field">
++    <%= form.label :email %>
++    <%= form.email_field :email, id: :student_email %>
++  </div>
++
++  <div class="field">
++    <%= form.label :major %>
++    <%= form.text_field :major, id: :student_major %>
++  </div>
++
++  <div class="field">
++    <%= form.label :minor %>
++    <%= form.text_field :minor, id: :student_minor %>
++  </div>
++
++  <div class="field">
++    <%= form.label :year %>
++    <%= form.select :year, ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate', 'PhD'] %>
++  </div>
++
++  <div class="field">
++    <%= form.label :graduation %>
++    <%= form.text_field :graduation, id: :student_graduation %>
++  </div>
++
++  <div class="actions">
++    <%= form.submit %>
++  </div>
++<% end %>
+diff --git a/app/views/students/_student.json.jbuilder b/app/views/students/_student.json.jbuilder
+new file mode 100644
+index 0000000..5d69b09
+--- /dev/null
++++ b/app/views/students/_student.json.jbuilder
+@@ -0,0 +1,2 @@
++json.extract! student, :id, :name, :email, :major, :minor, :year, :graduation, :created_at, :updated_at
++json.url student_url(student, format: :json)
+diff --git a/app/views/students/edit.html.erb b/app/views/students/edit.html.erb
+new file mode 100644
+index 0000000..33526ca
+--- /dev/null
++++ b/app/views/students/edit.html.erb
+@@ -0,0 +1,6 @@
++<h1>Editing Student</h1>
++
++<%= render 'form', student: @student %>
++
++<%= link_to 'Show', @student %> |
++<%= link_to 'Back', students_path %>
+diff --git a/app/views/students/index.html.erb b/app/views/students/index.html.erb
+new file mode 100644
+index 0000000..34a373a
+--- /dev/null
++++ b/app/views/students/index.html.erb
+@@ -0,0 +1,45 @@
++<p id="notice"><%= notice %></p>
++
++<h1>Students</h1>
++
++<%= form_tag(search_students_url, method: "get") do %>
++  <%= label_tag(:q, "Search by Student Name or Major:") %>
++  <%= text_field_tag(:q) %>
++  <%= submit_tag("Search") %>
++<% end %>
++
++<br>
++
++<table>
++  <thead>
++    <tr>
++      <th>Name</th>
++      <th>Email</th>
++      <th>Major</th>
++      <th>Minor</th>
++      <th>Year</th>
++      <th>Graduation</th>
++      <th colspan="3"></th>
++    </tr>
++  </thead>
++
++  <tbody>
++    <% @students.each do |student| %>
++      <tr>
++        <td><%= student.name %></td>
++        <td><%= student.email %></td>
++        <td><%= student.major %></td>
++        <td><%= student.minor %></td>
++        <td><%= student.year %></td>
++        <td><%= student.graduation %></td>
++        <td><%= link_to 'Show', student %></td>
++        <td><%= link_to 'Edit', edit_student_path(student) %></td>
++        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
++      </tr>
++    <% end %>
++  </tbody>
++</table>
++
++<br>
++
++<%= link_to 'New Student', new_student_path %>
+diff --git a/app/views/students/index.json.jbuilder b/app/views/students/index.json.jbuilder
+new file mode 100644
+index 0000000..b9faa05
+--- /dev/null
++++ b/app/views/students/index.json.jbuilder
+@@ -0,0 +1 @@
++json.array! @students, partial: 'students/student', as: :student
+diff --git a/app/views/students/new.html.erb b/app/views/students/new.html.erb
+new file mode 100644
+index 0000000..9421aaf
+--- /dev/null
++++ b/app/views/students/new.html.erb
+@@ -0,0 +1,5 @@
++<h1>New Student</h1>
++
++<%= render 'form', student: @student %>
++
++<%= link_to 'Back', students_path %>
+diff --git a/app/views/students/show.html.erb b/app/views/students/show.html.erb
+new file mode 100644
+index 0000000..baa740e
+--- /dev/null
++++ b/app/views/students/show.html.erb
+@@ -0,0 +1,72 @@
++<p id="notice"><%= notice %></p>
++
++<p>
++  <strong>Name:</strong>
++  <%= @student.name %>
++</p>
++
++<p>
++  <strong>Email:</strong>
++  <%= @student.email %>
++</p>
++
++<p>
++  <strong>Major:</strong>
++  <%= @student.major %>
++</p>
++
++<p>
++  <strong>Minor:</strong>
++  <%= @student.minor %>
++</p>
++
++<p>
++  <strong>Year:</strong>
++  <%= @student.year %>
++</p>
++
++<p>
++  <strong>Graduation:</strong>
++  <%= @student.graduation %>
++</p>
++
++
++<div class="show-list">
++  <strong>Enrolled Courses:</strong>
++  <table>
++    <thead>
++      <tr>
++        <th>CRN</th>
++        <th>Course Name</th>
++        <th>Section</th>
++        <th>Professor</th>
++        <th>Days</th>
++        <th>Begin Time</th>
++        <th>End Time</th>
++        <th>Credits</th>
++        <th>Semester</th>
++      </tr>
++    </thead>
++
++    <tbody>
++      <% @student.enrollments.each do |enrollment| %>
++        <tr>
++          <td><%= enrollment.section.crn %></td>
++          <td><%= enrollment.section.course.name %></td>
++          <td><%= enrollment.section.number %></td>
++          <td><%= enrollment.section.professor.name %>, <%= enrollment.section.professor.email %></td>
++          <td><%= enrollment.section.day %></td>
++          <td><%= enrollment.section.begintime %></td>
++          <td><%= enrollment.section.endtime %></td>
++          <td><%= enrollment.section.course.credit %></td>
++	  <td><%= enrollment.section.course.semester %> <%= enrollment.section.course.year %></td>
++        </tr>
++      <% end %>
++    </tbody>
++  </table>
++</div>
++
++
++
++<%= link_to 'Edit', edit_student_path(@student) %> |
++<%= link_to 'Back', students_path %>
+diff --git a/app/views/students/show.json.jbuilder b/app/views/students/show.json.jbuilder
+new file mode 100644
+index 0000000..17301de
+--- /dev/null
++++ b/app/views/students/show.json.jbuilder
+@@ -0,0 +1 @@
++json.partial! "students/student", student: @student
+diff --git a/config/routes.rb b/config/routes.rb
+index 7db32fb..7b8d96a 100644
+--- a/config/routes.rb
++++ b/config/routes.rb
+@@ -1,4 +1,17 @@
+ Rails.application.routes.draw do
++
++  resources :enrollments do
++    collection do
++      get 'search'
++    end
++  end
++
++  resources :students do
++    collection do
++      get 'search'
++    end
++  end
++
+   devise_for :users
+   
+   root to: 'sections#index'
+diff --git a/db/migrate/20171019020216_create_students.rb b/db/migrate/20171019020216_create_students.rb
+new file mode 100644
+index 0000000..4fec93d
+--- /dev/null
++++ b/db/migrate/20171019020216_create_students.rb
+@@ -0,0 +1,14 @@
++class CreateStudents < ActiveRecord::Migration[5.1]
++  def change
++    create_table :students do |t|
++      t.string :name
++      t.string :email
++      t.string :major
++      t.string :minor
++      t.string :year
++      t.string :graduation
++
++      t.timestamps
++    end
++  end
++end
+diff --git a/db/migrate/20171019022034_create_enrollments.rb b/db/migrate/20171019022034_create_enrollments.rb
+new file mode 100644
+index 0000000..cd9a53d
+--- /dev/null
++++ b/db/migrate/20171019022034_create_enrollments.rb
+@@ -0,0 +1,10 @@
++class CreateEnrollments < ActiveRecord::Migration[5.1]
++  def change
++    create_table :enrollments do |t|
++      t.references :section, foreign_key: true
++      t.references :student, foreign_key: true
++
++      t.timestamps
++    end
++  end
++end
+diff --git a/db/schema.rb b/db/schema.rb
+index 3e79a58..1d0ae4f 100644
+--- a/db/schema.rb
++++ b/db/schema.rb
+@@ -10,7 +10,7 @@
+ #
+ # It's strongly recommended that you check this file into your version control system.
+ 
+-ActiveRecord::Schema.define(version: 20170929073023) do
++ActiveRecord::Schema.define(version: 20171019022034) do
+ 
+   create_table "courses", force: :cascade do |t|
+     t.string "name"
+@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20170929073023) do
+     t.datetime "updated_at", null: false
+   end
+ 
++  create_table "enrollments", force: :cascade do |t|
++    t.integer "section_id"
++    t.integer "student_id"
++    t.datetime "created_at", null: false
++    t.datetime "updated_at", null: false
++    t.index ["section_id"], name: "index_enrollments_on_section_id"
++    t.index ["student_id"], name: "index_enrollments_on_student_id"
++  end
++
+   create_table "professors", force: :cascade do |t|
+     t.string "name"
+     t.string "office"
+@@ -48,6 +57,17 @@ ActiveRecord::Schema.define(version: 20170929073023) do
+     t.index ["professor_id"], name: "index_sections_on_professor_id"
+   end
+ 
++  create_table "students", force: :cascade do |t|
++    t.string "name"
++    t.string "email"
++    t.string "major"
++    t.string "minor"
++    t.string "year"
++    t.string "graduation"
++    t.datetime "created_at", null: false
++    t.datetime "updated_at", null: false
++  end
++
+   create_table "users", force: :cascade do |t|
+     t.string "email", default: "", null: false
+     t.string "encrypted_password", default: "", null: false

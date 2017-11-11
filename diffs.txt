@@ -1,0 +1,354 @@
+diff --git a/app/models/course.rb b/app/models/course.rb
+index 25e8ed7..675019b 100644
+--- a/app/models/course.rb
++++ b/app/models/course.rb
+@@ -1,2 +1,4 @@
+ class Course < ApplicationRecord
++  has_many :sections
++  has_many :professors, through: :sections
+ end
+diff --git a/app/models/professor.rb b/app/models/professor.rb
+index 8262371..bc1da14 100644
+--- a/app/models/professor.rb
++++ b/app/models/professor.rb
+@@ -1,2 +1,4 @@
+ class Professor < ApplicationRecord
++  has_many :sections
++  has_many :courses, through: :sections
+ end
+diff --git a/app/views/courses/_form.html.erb b/app/views/courses/_form.html.erb
+index 81753f9..9d0cbbc 100644
+--- a/app/views/courses/_form.html.erb
++++ b/app/views/courses/_form.html.erb
+@@ -12,12 +12,12 @@
+   <% end %>
+ 
+   <div class="field">
+-    <%= form.label :name %>
++    <%= form.label "Course Name" %>
+     <%= form.text_field :name, id: :course_name %>
+   </div>
+ 
+   <div class="field">
+-    <%= form.label :number %>
++    <%= form.label "Course Number" %>
+     <%= form.number_field :number, id: :course_number %>
+   </div>
+ 
+@@ -27,18 +27,20 @@
+   </div>
+ 
+   <div class="field">
+-    <%= form.label :credit %>
++    <%= form.label "Credits" %>
+     <%= form.number_field :credit, id: :course_credit %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+     <%= form.label :semester %>
+-    <%= form.text_field :semester, id: :course_semester %>
++    <%= form.select :semester, ['Fall', 'Spring', 'Summer'] %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+     <%= form.label :year %>
+-    <%= form.text_field :year, id: :course_year %>
++    <%= form.select :year, (Time.zone.now.year)...(Time.zone.now.year+3) %>
+   </div>
+ 
+   <div class="actions">
+diff --git a/app/views/courses/index.html.erb b/app/views/courses/index.html.erb
+index 0d3e94a..8c2f5b1 100644
+--- a/app/views/courses/index.html.erb
++++ b/app/views/courses/index.html.erb
+@@ -5,10 +5,10 @@
+ <table>
+   <thead>
+     <tr>
+-      <th>Name</th>
+-      <th>Number</th>
++      <th>Course Name</th>
++      <th>Course Number</th>
+       <th>Department</th>
+-      <th>Credit</th>
++      <th>Credits</th>
+       <th>Semester</th>
+       <th>Year</th>
+       <th colspan="3"></th>
+diff --git a/app/views/courses/show.html.erb b/app/views/courses/show.html.erb
+index 2fd98e9..d7ed143 100644
+--- a/app/views/courses/show.html.erb
++++ b/app/views/courses/show.html.erb
+@@ -1,12 +1,12 @@
+ <p id="notice"><%= notice %></p>
+ 
+ <p>
+-  <strong>Name:</strong>
++  <strong>Course Name:</strong>
+   <%= @course.name %>
+ </p>
+ 
+ <p>
+-  <strong>Number:</strong>
++  <strong>Course Number:</strong>
+   <%= @course.number %>
+ </p>
+ 
+@@ -16,7 +16,7 @@
+ </p>
+ 
+ <p>
+-  <strong>Credit:</strong>
++  <strong>Credits:</strong>
+   <%= @course.credit %>
+ </p>
+ 
+@@ -30,5 +30,17 @@
+   <%= @course.year %>
+ </p>
+ 
++<p>
++  <% # Help from ActiveRecord PowerPoint%>
++  <strong>Sections:</strong>
++  <% @course.sections.each do |section| %>
++    <li> <%= section.number %>
++         <%= section.professor.name %>
++         <%= section.day %>
++         <%= section.begintime %>
++         <%= section.endtime %>
++  <% end %>
++</p>
++
+ <%= link_to 'Edit', edit_course_path(@course) %> |
+ <%= link_to 'Back', courses_path %>
+diff --git a/app/views/professors/_form.html.erb b/app/views/professors/_form.html.erb
+index 6e5c1f7..0ad0aa9 100644
+--- a/app/views/professors/_form.html.erb
++++ b/app/views/professors/_form.html.erb
+@@ -21,14 +21,16 @@
+     <%= form.text_field :office, id: :professor_office %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+     <%= form.label :phone %>
+-    <%= form.text_field :phone, id: :professor_phone %>
++    <%= form.telephone_field :phone, id: :professor_phone %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+     <%= form.label :email %>
+-    <%= form.text_field :email, id: :professor_email %>
++    <%= form.email_field :email, id: :professor_email %>
+   </div>
+ 
+   <div class="field">
+diff --git a/app/views/professors/show.html.erb b/app/views/professors/show.html.erb
+index cbfa8b7..26914d3 100644
+--- a/app/views/professors/show.html.erb
++++ b/app/views/professors/show.html.erb
+@@ -25,5 +25,20 @@
+   <%= @professor.department %>
+ </p>
+ 
++<p>
++  <% # Help from: ActiveRecord PowerPoint %>
++  <strong>Courses:</strong>
++  <% @professor.sections.each do |section| %>
++  <li>  <%= section.course.semester %>
++        <%= section.course.year %> 
++        <%= section.course.name %>
++        <%= section.course.number %>
++        <%= section.number %>
++        <%= section.day %>
++        <%= section.begintime %>
++        <%= section.endtime %>
++  <% end %>
++</p>
++
+ <%= link_to 'Edit', edit_professor_path(@professor) %> |
+ <%= link_to 'Back', professors_path %>
+diff --git a/app/views/sections/_form.html.erb b/app/views/sections/_form.html.erb
+index d8a8e9f..7c29fba 100644
+--- a/app/views/sections/_form.html.erb
++++ b/app/views/sections/_form.html.erb
+@@ -10,6 +10,18 @@
+       </ul>
+     </div>
+   <% end %>
++  
++  <% # Help from: ActiveRecord PowerPoint %>
++  <div class="field">
++    <%= form.label :professor_id %>
++    <%= form.select(:professor_id, options_from_collection_for_select(Professor.all, :id, :name)) %>
++  </div>
++
++  <% # Help from: ActiveRecord PowerPoint %>
++  <div class="field">
++    <%= form.label :course_id %>
++    <%= form.select(:course_id, options_from_collection_for_select(Course.all, :id, :name)) %>
++  </div>
+ 
+   <div class="field">
+     <%= form.label :crn %>
+@@ -17,7 +29,7 @@
+   </div>
+ 
+   <div class="field">
+-    <%= form.label :number %>
++    <%= form.label "Section Number" %>
+     <%= form.number_field :number, id: :section_number %>
+   </div>
+ 
+@@ -27,28 +39,20 @@
+   </div>
+ 
+   <div class="field">
+-    <%= form.label :day %>
++    <%= form.label "Days" %>
+     <%= form.text_field :day, id: :section_day %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+-    <%= form.label :begintime %>
+-    <%= form.text_field :begintime, id: :section_begintime %>
++    <%= form.label "Begin Time" %>
++    <%= form.time_field :begintime, id: :section_begintime %>
+   </div>
+ 
++  <% # Help from: Form Helpers Ruby Guide (Bigg et al., 2017) %>
+   <div class="field">
+-    <%= form.label :endtime %>
+-    <%= form.text_field :endtime, id: :section_endtime %>
+-  </div>
+-
+-  <div class="field">
+-    <%= form.label :professor_id %>
+-    <%= form.text_field :professor_id, id: :section_professor_id %>
+-  </div>
+-
+-  <div class="field">
+-    <%= form.label :course_id %>
+-    <%= form.text_field :course_id, id: :section_course_id %>
++    <%= form.label "End Time" %>
++    <%= form.time_field :endtime, id: :section_endtime %>
+   </div>
+ 
+   <div class="actions">
+diff --git a/app/views/sections/index.html.erb b/app/views/sections/index.html.erb
+index 7b1a89c..92060e8 100644
+--- a/app/views/sections/index.html.erb
++++ b/app/views/sections/index.html.erb
+@@ -5,14 +5,15 @@
+ <table>
+   <thead>
+     <tr>
+-      <th>Crn</th>
+-      <th>Number</th>
++      <th>CRN</th>
++      <th>Department</th>
++      <th>Course Number</th>
++      <th>Section Number</th>
+       <th>Room</th>
+-      <th>Day</th>
+-      <th>Begintime</th>
+-      <th>Endtime</th>
++      <th>Days</th>
++      <th>Begin Time</th>
++      <th>End Time</th>
+       <th>Professor</th>
+-      <th>Course</th>
+       <th colspan="3"></th>
+     </tr>
+   </thead>
+@@ -21,13 +22,14 @@
+     <% @sections.each do |section| %>
+       <tr>
+         <td><%= section.crn %></td>
++        <td><%= section.course.department %></td>
++        <td><%= section.course.number %></td>
+         <td><%= section.number %></td>
+         <td><%= section.room %></td>
+         <td><%= section.day %></td>
+         <td><%= section.begintime %></td>
+         <td><%= section.endtime %></td>
+-        <td><%= section.professor %></td>
+-        <td><%= section.course %></td>
++        <td><%= section.professor.name %></td>
+         <td><%= link_to 'Show', section %></td>
+         <td><%= link_to 'Edit', edit_section_path(section) %></td>
+         <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+diff --git a/app/views/sections/show.html.erb b/app/views/sections/show.html.erb
+index 11eb5cb..71efb1b 100644
+--- a/app/views/sections/show.html.erb
++++ b/app/views/sections/show.html.erb
+@@ -1,43 +1,51 @@
+ <p id="notice"><%= notice %></p>
+ 
+ <p>
+-  <strong>Crn:</strong>
++  <strong>CRN:</strong>
+   <%= @section.crn %>
+ </p>
+ 
+ <p>
+-  <strong>Number:</strong>
++  <strong>Department w/ Course and Section Numbers:</strong>
++  <%= @section.course.department %>
++  <%= @section.course.number %>
+   <%= @section.number %>
+ </p>
+ 
+ <p>
+-  <strong>Room:</strong>
+-  <%= @section.room %>
++  <strong>Course Name:</strong>
++  <%= @section.course.name %>
+ </p>
+ 
+ <p>
+-  <strong>Day:</strong>
+-  <%= @section.day %>
++  <strong>Professor:</strong>
++  <%= @section.professor.name %>
+ </p>
+ 
+ <p>
+-  <strong>Begintime:</strong>
+-  <%= @section.begintime %>
++  <strong>Semester and Year:</strong>
++  <%= @section.course.semester %>
++  <%= @section.course.year %>
+ </p>
+ 
+ <p>
+-  <strong>Endtime:</strong>
+-  <%= @section.endtime %>
++  <strong>Room:</strong>
++  <%= @section.room %>
+ </p>
+ 
+ <p>
+-  <strong>Professor:</strong>
+-  <%= @section.professor %>
++  <strong>Days:</strong>
++  <%= @section.day %>
+ </p>
+ 
+ <p>
+-  <strong>Course:</strong>
+-  <%= @section.course %>
++  <strong>Begin Time:</strong>
++  <%= @section.begintime %>
++</p>
++
++<p>
++  <strong>End Time:</strong>
++  <%= @section.endtime %>
+ </p>
+ 
+ <%= link_to 'Edit', edit_section_path(@section) %> |
